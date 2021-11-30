@@ -15,10 +15,11 @@ class Question:
 class QuizGame:
     def __init__(self):
         self.__current = 0
+        self.__nCorrect = 0
         self.__questions = [
             Question("What color is the sky?", "blue", "yellow", "diamond",
                      "purple", 1),
-            Question("Which planet is third from the sun?", "Pluto", "Jupiter", "Mercury", "Earth", 3)
+            Question("Which planet is third from the sun?", "Pluto", "Jupiter", "Mercury", "Earth", 4)
         ]
     def takeTurn(self, sInput):
         aReturn = []
@@ -30,13 +31,16 @@ class QuizGame:
             try:
                 if int(sInput) == self.__questions[self.__current - 1].answer():
                     aReturn.append("correct")
+                    self.__nCorrect += 1
                 else:
                     aReturn.append("incorrect")
                 try:
                     aReturn += self.__questions[self.__current].ask()
                     self.__current += 1
                 except:
-                    aReturn.append("no question: " + str(self.__current))
+                    aReturn.append("Thank-you for playing")
+                    aReturn.append("You got " + str(self.__nCorrect) + " correct.")
+                    self.__current = 0
             except:
                 aReturn.append("please choose a number")
         return aReturn
